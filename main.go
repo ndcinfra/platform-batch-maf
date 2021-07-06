@@ -118,7 +118,7 @@ func Run(date string, conn *pgx.Conn) string {
 
 	err := godotenv.Load()
 	if err != nil {
-		log.Printf("ERROR load env: %v\n", err)
+		log.Fatalf("ERROR load env: %v\n", err)
 	}
 
 	// TODO:
@@ -137,8 +137,7 @@ func Run(date string, conn *pgx.Conn) string {
 
 	currency, err := calcurateCurrency()
 	if err != nil {
-		log.Printf("Failed to get currency. %v\n", err)
-		os.Exit(1)
+		log.Fatalf("Failed to get currency. %v\n", err)
 	}
 	fmt.Printf("Today currency: %v\n", currency)
 
@@ -155,34 +154,34 @@ func Run(date string, conn *pgx.Conn) string {
 
 		bData, err := json.Marshal(reqData)
 		if err != nil {
-			log.Printf("ERROR marshal: %v\n", err)
+			log.Fatalf("ERROR marshal: %v\n", err)
 		}
 
 		statusCode, resp, err := callAPI(url, method, string(bData))
 		//defer resp.Body.Close()
 		if err != nil {
-			log.Printf("ERROR: callapi maf. %v\n", err)
+			log.Fatalf("ERROR: callapi maf. %v\n", err)
 		}
 
 		if statusCode >= 400 {
-			log.Printf("ERROR: response code from maf. %d\n", statusCode)
+			log.Fatalf("ERROR: response code from maf. %d\n", statusCode)
 		} else {
 			respData, err := ioutil.ReadAll(resp.Body)
 			if err != nil {
-				log.Printf("ERROR: read resp.Body: %v\n", err)
+				log.Fatalf("ERROR: read resp.Body: %v\n", err)
 			} else {
 				//log.Printf("Success. response data from maf: %v\n", string(respData))
 
 				var decoded []interface{}
 				err = json.Unmarshal(respData, &decoded)
 				if err != nil {
-					log.Printf("ERROR unmarshal maf response data: %v\n", err)
+					log.Fatalf("ERROR unmarshal maf response data: %v\n", err)
 				}
 				//log.Printf("Success. decoded data from maf: %v\n", decoded[0])
 
 				bd, err := json.Marshal(decoded[0])
 				if err != nil {
-					log.Printf("ERROR marshal decoded data: %v\n", err)
+					log.Fatalf("ERROR marshal decoded data: %v\n", err)
 				}
 
 				json.Unmarshal(bd, &result)
@@ -213,18 +212,18 @@ func Run(date string, conn *pgx.Conn) string {
 					statusCode, resp, err = callAPI(url, method, string(bData))
 					defer resp.Body.Close()
 					if err != nil {
-						log.Printf("ERROR: %v\n", err)
+						log.Fatalf("ERROR: %v\n", err)
 					}
 
 					if statusCode >= 400 {
-						log.Printf("ERROR: %d\n", statusCode)
+						log.Fatalf("ERROR: %d\n", statusCode)
 					} else {
 
 						size, err := io.Copy(file, resp.Body)
 						if err != nil {
-							log.Printf("ERROR: make file: %v\n", err)
+							log.Fatalf("ERROR: make file: %v\n", err)
 						} else {
-							log.Printf("Downloaded a file %s with size %d", fileName, size)
+							log.Fatalf("Downloaded a file %s with size %d", fileName, size)
 							// read file
 
 							csvData := ReadCsvFile(fileName)
