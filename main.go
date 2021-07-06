@@ -20,6 +20,7 @@ import (
 	"github.com/astaxie/beego/logs"
 	"github.com/jackc/pgx/v4"
 	"github.com/joho/godotenv"
+	"github.com/ndcinfra/platform-batch-maf/libs"
 )
 
 type Request struct {
@@ -64,6 +65,7 @@ var db *sql.DB
 // 수작업시 실행 방법
 //  go run main.go -date=2021-06-11
 func main() {
+	start := time.Now()
 
 	date := flag.String("date", "", "")
 	flag.Parse()
@@ -94,12 +96,19 @@ func main() {
 	Run(*date, conn)
 
 	fmt.Printf("End Get Game Data !\n")
+
+	end := time.Now()
+	elapsed := time.Since(start)
+	logs.Info("finish: ", end, " , elapsed: ", elapsed)
+
+	libs.SendEmail(start.String(), end.String(), elapsed.String())
+
 	os.Exit(0)
 
 }
 
 /// date: YYYY-MM-DD
-func Run(date string, conn *pgx.Conn) {
+func Run(date string, conn *pgx.Conn) string {
 
 	currentTime := time.Now().AddDate(0, 0, -1)
 
@@ -319,6 +328,8 @@ func Run(date string, conn *pgx.Conn) {
 	if err != nil {
 		fmt.Printf("Error remove files. %v\n", err)
 	}
+
+	return date
 
 }
 

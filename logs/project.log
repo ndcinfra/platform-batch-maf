@@ -79,3 +79,16 @@
 2021/06/24 21:20:16.359 [I]  connection success
 2021/06/25 22:23:58.050 [I]  connection success
 2021/06/26 23:04:02.358 [I]  connection success
+2021/06/29 21:42:51.235 [I]  connection success
+2021/06/29 21:44:41.558 [I]  connection success
+2021/06/29 21:46:05.278 [I]  connection success
+2021/06/30 22:42:52.955 [I]  connection success
+2021/07/01 21:34:53.020 [I]  connection success
+2021/07/02 17:24:14.988 [I]  connection success
+2021/07/02 21:38:21.147 [I]  connection success
+2021/07/03 22:43:05.539 [I]  connection success
+2021/07/04 18:32:32.911 [I]  connection success
+2021/07/05 17:29:35.310 [I]  connection success
+2021/07/05 21:07:12.900 [I]  connection success
+2021/07/05 21:08:16.866 [I]  finish:  2021-07-05 21:08:16.866459 -0700 PDT m=+65.352585845  , elapsed:  1m5.351628919s
+2021/07/05 21:08:17.966 [E]  send email error:  gomail: could not send email 1: gomail: invalid message, "From" field is absent
