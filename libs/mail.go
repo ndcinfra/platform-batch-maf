@@ -25,6 +25,7 @@ func SendEmail(date, start, end, elasped string) {
 
 	m := gomail.NewMessage()
 
+	m.SetHeader("From", "no-reply@closersonline.com")
 	m.SetHeader("To", "youngtip@gmail.com", "youngtip@naddic.com", "sjwon@naddic.com")
 	m.SetHeader("Subject", subject)
 
