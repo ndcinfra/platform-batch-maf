@@ -2,7 +2,7 @@
 
 echo 'start cron job...';
 
-cd ~/work/src/platform-batch-maf/
+cd ~/go/src/github.com/ndcinfra/platform-batch-maf/
 ./platform-batch-maf
 
 echo 'success...';
