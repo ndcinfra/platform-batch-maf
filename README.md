@@ -1,5 +1,9 @@
 수작업시 실행 방법  
-        ex. go run main.go -date=2021-06-11
+        1. DataInfra 서버 접속  
+        2. cd ~/go/src/github.com/ndcinfra/platform-batch-maf  
+        3. go run main.go -date=2021-06-11  
+        (2021-06-11은 원하는 일자)
+
 
 rev_d           float64 // 토탈 금액.(환율적용)  
 rev_t           float64 // 토탈 금액. (환율미적용)  
