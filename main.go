@@ -93,7 +93,7 @@ func main() {
 
 	logs.Info("connection success")
 
-	Run(*date, conn)
+	resultDate := Run(*date, conn)
 
 	fmt.Printf("End Get Game Data !\n")
 
@@ -101,7 +101,7 @@ func main() {
 	elapsed := time.Since(start)
 	logs.Info("finish: ", end, " , elapsed: ", elapsed)
 
-	libs.SendEmail(start.String(), end.String(), elapsed.String())
+	libs.SendEmail(resultDate, start.String(), end.String(), elapsed.String())
 
 	os.Exit(0)
 
