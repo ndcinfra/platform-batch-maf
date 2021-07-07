@@ -223,7 +223,7 @@ func Run(date string, conn *pgx.Conn) string {
 						if err != nil {
 							log.Fatalf("ERROR: make file: %v\n", err)
 						} else {
-							log.Fatalf("Downloaded a file %s with size %d", fileName, size)
+							log.Printf("Downloaded a file %s with size %d", fileName, size)
 							// read file
 
 							csvData := ReadCsvFile(fileName)
