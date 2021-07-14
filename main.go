@@ -118,7 +118,9 @@ func Run(date string, conn *pgx.Conn) string {
 
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("ERROR load env: %v\n", err)
+		logs.Error("ERROR load env: %v\n", err)
+		//log.Fatalf("ERROR load env: %v\n", err)
+		os.Exit(1)
 	}
 
 	// TODO:
@@ -137,7 +139,8 @@ func Run(date string, conn *pgx.Conn) string {
 
 	currency, err := calcurateCurrency()
 	if err != nil {
-		log.Fatalf("Failed to get currency. %v\n", err)
+		logs.Error("Failed to get currency. %v\n", err)
+		os.Exit(1)
 	}
 	fmt.Printf("Today currency: %v\n", currency)
 
@@ -154,34 +157,40 @@ func Run(date string, conn *pgx.Conn) string {
 
 		bData, err := json.Marshal(reqData)
 		if err != nil {
-			log.Fatalf("ERROR marshal: %v\n", err)
+			logs.Error("ERROR marshal: %v\n", err)
+			os.Exit(1)
 		}
 
 		statusCode, resp, err := callAPI(url, method, string(bData))
 		//defer resp.Body.Close()
 		if err != nil {
-			log.Fatalf("ERROR: callapi maf. %v\n", err)
+			logs.Error("ERROR: callapi maf. %v\n", err)
+			os.Exit(1)
 		}
 
 		if statusCode >= 400 {
-			log.Fatalf("ERROR: response code from maf. %d\n", statusCode)
+			logs.Error("ERROR: response code from maf. %d\n", statusCode)
+			os.Exit(1)
 		} else {
 			respData, err := ioutil.ReadAll(resp.Body)
 			if err != nil {
-				log.Fatalf("ERROR: read resp.Body: %v\n", err)
+				logs.Error("ERROR: read resp.Body: %v\n", err)
+				os.Exit(1)
 			} else {
 				//log.Printf("Success. response data from maf: %v\n", string(respData))
 
 				var decoded []interface{}
 				err = json.Unmarshal(respData, &decoded)
 				if err != nil {
-					log.Fatalf("ERROR unmarshal maf response data: %v\n", err)
+					logs.Error("ERROR unmarshal maf response data: %v\n", err)
+					os.Exit(1)
 				}
 				//log.Printf("Success. decoded data from maf: %v\n", decoded[0])
 
 				bd, err := json.Marshal(decoded[0])
 				if err != nil {
-					log.Fatalf("ERROR marshal decoded data: %v\n", err)
+					logs.Error("ERROR marshal decoded data: %v\n", err)
+					os.Exit(1)
 				}
 
 				json.Unmarshal(bd, &result)
@@ -205,23 +214,27 @@ func Run(date string, conn *pgx.Conn) string {
 
 					file, err := os.Create(fileName)
 					if err != nil {
-						log.Fatal(err)
+						logs.Error("ERROR file create: %+v", err)
+						os.Exit(1)
 					}
-					defer file.Close()
+					//defer file.Close()
 
 					statusCode, resp, err = callAPI(url, method, string(bData))
 					defer resp.Body.Close()
 					if err != nil {
-						log.Fatalf("ERROR: %v\n", err)
+						logs.Error("ERROR: %v\n", err)
+						os.Exit(1)
 					}
 
 					if statusCode >= 400 {
-						log.Fatalf("ERROR: %d\n", statusCode)
+						logs.Error("ERROR: %d\n", statusCode)
+						os.Exit(1)
 					} else {
 
 						size, err := io.Copy(file, resp.Body)
 						if err != nil {
-							log.Fatalf("ERROR: make file: %v\n", err)
+							logs.Error("ERROR: make file: %v\n", err)
+							os.Exit(1)
 						} else {
 							log.Printf("Downloaded a file %s with size %d", fileName, size)
 							// read file
@@ -249,6 +262,8 @@ func Run(date string, conn *pgx.Conn) string {
 						}
 
 					}
+
+					file.Close()
 				}
 
 			}
@@ -311,7 +326,7 @@ func Run(date string, conn *pgx.Conn) string {
 			dbfield.rev_ad_ios_d, dbfield.rev_ad_ios_t, dbfield.rev_ad_aos_d, dbfield.rev_ad_aos_t,
 		)
 		if err != nil {
-			log.Printf("DB Error: %v\n", err)
+			logs.Info("DB Error: %v\n", err)
 		}
 
 		result.SaleUsdSum = 0

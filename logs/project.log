@@ -102,3 +102,21 @@
 2021/07/06 21:01:09.430 [I]  connection success
 2021/07/06 21:02:06.723 [I]  finish:  2021-07-06 21:02:06.723255 -0700 PDT m=+58.688864414  , elapsed:  58.687542283s
 2021/07/06 21:02:07.761 [I]  success send email
+2021/07/13 22:00:15.868 [I]  connection success
+2021/07/13 22:01:22.667 [I]  finish:  2021-07-13 22:01:22.66718 -0700 PDT m=+68.615128708  , elapsed:  1m8.613995678s
+2021/07/13 22:01:24.438 [I]  success send email
+2021/07/13 22:08:33.616 [I]  connection success
+2021/07/13 22:08:45.186 [I]  DB Error: ERROR: duplicate key value violates unique constraint "kpi_pkey" (SQLSTATE 23505)
+
+2021/07/13 22:08:52.276 [I]  DB Error: ERROR: duplicate key value violates unique constraint "kpi_pkey" (SQLSTATE 23505)
+
+2021/07/13 22:08:59.568 [I]  DB Error: ERROR: duplicate key value violates unique constraint "kpi_pkey" (SQLSTATE 23505)
+
+2021/07/13 22:09:15.317 [I]  DB Error: ERROR: duplicate key value violates unique constraint "kpi_pkey" (SQLSTATE 23505)
+
+2021/07/13 22:09:21.717 [I]  DB Error: ERROR: duplicate key value violates unique constraint "kpi_pkey" (SQLSTATE 23505)
+
+2021/07/13 22:09:28.158 [I]  DB Error: ERROR: duplicate key value violates unique constraint "kpi_pkey" (SQLSTATE 23505)
+
+2021/07/13 22:09:28.160 [I]  finish:  2021-07-13 22:09:28.160434 -0700 PDT m=+56.636483020  , elapsed:  56.63544351s
+2021/07/13 22:09:30.273 [I]  success send email
