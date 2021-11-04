@@ -158,24 +158,27 @@ func Run(date string, conn *pgx.Conn) string {
 		bData, err := json.Marshal(reqData)
 		if err != nil {
 			logs.Error("ERROR marshal: %v\n", err)
-			os.Exit(1)
+			//os.Exit(1)
 		}
 
 		statusCode, resp, err := callAPI(url, method, string(bData))
 		//defer resp.Body.Close()
 		if err != nil {
 			logs.Error("ERROR: callapi maf. %v\n", err)
-			os.Exit(1)
+			//os.Exit(1)
+			continue
 		}
 
 		if statusCode >= 400 {
 			logs.Error("ERROR: response code from maf. %d\n", statusCode)
-			os.Exit(1)
+			//os.Exit(1)
+			continue
 		} else {
 			respData, err := ioutil.ReadAll(resp.Body)
 			if err != nil {
 				logs.Error("ERROR: read resp.Body: %v\n", err)
-				os.Exit(1)
+				//os.Exit(1)
+				continue
 			} else {
 				//log.Printf("Success. response data from maf: %v\n", string(respData))
 
@@ -183,14 +186,16 @@ func Run(date string, conn *pgx.Conn) string {
 				err = json.Unmarshal(respData, &decoded)
 				if err != nil {
 					logs.Error("ERROR unmarshal maf response data: %v\n", err)
-					os.Exit(1)
+					//os.Exit(1)
+					continue
 				}
 				//log.Printf("Success. decoded data from maf: %v\n", decoded[0])
 
 				bd, err := json.Marshal(decoded[0])
 				if err != nil {
 					logs.Error("ERROR marshal decoded data: %v\n", err)
-					os.Exit(1)
+					//os.Exit(1)
+					continue
 				}
 
 				json.Unmarshal(bd, &result)
@@ -215,7 +220,8 @@ func Run(date string, conn *pgx.Conn) string {
 					file, err := os.Create(fileName)
 					if err != nil {
 						logs.Error("ERROR file create: %+v", err)
-						os.Exit(1)
+						//os.Exit(1)
+						continue
 					}
 					//defer file.Close()
 
@@ -223,18 +229,21 @@ func Run(date string, conn *pgx.Conn) string {
 					defer resp.Body.Close()
 					if err != nil {
 						logs.Error("ERROR: %v\n", err)
-						os.Exit(1)
+						//os.Exit(1)
+						continue
 					}
 
 					if statusCode >= 400 {
 						logs.Error("ERROR: %d\n", statusCode)
-						os.Exit(1)
+						//os.Exit(1)
+						continue
 					} else {
 
 						size, err := io.Copy(file, resp.Body)
 						if err != nil {
 							logs.Error("ERROR: make file: %v\n", err)
-							os.Exit(1)
+							//os.Exit(1)
+							continue
 						} else {
 							log.Printf("Downloaded a file %s with size %d", fileName, size)
 							// read file
