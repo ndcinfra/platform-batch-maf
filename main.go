@@ -130,6 +130,9 @@ func Run(date string, conn *pgx.Conn) string {
 	// 'hamster' : '햄스터 타이쿤'. ios: id1526108438, android: com.maf.projectH
 	// 'newlife' : 'Prison Tycoon' ios: id1547370424, android: com.maf.newlife
 	// Train Village:  'Train Town' iOS: id1471953868, android:com.maf.mergeplanet !!! not yet
+	// tycooncookie : 쿠키 타이쿤, IOS : 1565768885, AOS : com.maf.idle.hamster.factory.manager.cookie
+	// tycoonpuppycafe: 강아지카페 IOS : 1574143572, AOS : com.maf.idle.puppy.cafe.tycoon
+	// monstereater: monstereater IOS : 1574143572, AOS : com.maf.idle.puppy.cafe.tycoon
 
 	var reqData Request
 
