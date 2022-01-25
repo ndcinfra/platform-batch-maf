@@ -140,12 +140,15 @@ func Run(date string, conn *pgx.Conn) string {
 	reqData.EndDate = currentTime.Format("2006-01-02")
 	gameList := strings.Split(os.Getenv("game"), ",")
 
-	currency, err := calcurateCurrency()
+	currency, err := calcurateCurrencyV2()
 	if err != nil {
 		logs.Error("Failed to get currency. %v\n", err)
 		os.Exit(1)
 	}
-	fmt.Printf("Today currency: %v\n", currency)
+	fmt.Printf("Today currency: %v\n", currency.Rates.KRW)
+
+	fCurrencyRate, _ := strconv.ParseFloat(currency.Rates.KRW, 64)
+	fmt.Printf("Float currency: %v\n", fCurrencyRate)
 
 	log.Printf("game list: %v, date: %v\v", gameList, reqData.StartDate)
 
@@ -284,15 +287,15 @@ func Run(date string, conn *pgx.Conn) string {
 
 		var dbfield DBfield
 
-		dbfield.rev_inapp_ios_d = result.SaleUsdIos * currency.USDKRW[0] // krw
-		dbfield.rev_inapp_ios_t = result.SaleUsdIos                      //usd
-		dbfield.rev_inapp_aos_d = result.SaleUsdAos * currency.USDKRW[0] // krw
-		dbfield.rev_inapp_aos_t = result.SaleUsdAos                      //usd
+		dbfield.rev_inapp_ios_d = result.SaleUsdIos * fCurrencyRate // krw
+		dbfield.rev_inapp_ios_t = result.SaleUsdIos                 //usd
+		dbfield.rev_inapp_aos_d = result.SaleUsdAos * fCurrencyRate // krw
+		dbfield.rev_inapp_aos_t = result.SaleUsdAos                 //usd
 
 		// ad
 		//appflyer. ad. ios. usd
 		for _, v := range result.IOSTotal {
-			dbfield.rev_ad_ios_d += v * currency.USDKRW[0] // krw
+			dbfield.rev_ad_ios_d += v * fCurrencyRate // krw
 			dbfield.rev_ad_ios_t += v
 		}
 
@@ -303,13 +306,13 @@ func Run(date string, conn *pgx.Conn) string {
 			//appflyer. ad. aos. krw
 			for _, v := range result.AOSTotal {
 				dbfield.rev_ad_aos_d += v
-				dbfield.rev_ad_aos_t += v / currency.USDKRW[0]
+				dbfield.rev_ad_aos_t += v / fCurrencyRate
 			}
 		} else {
 			// ad
 			//appflyer. ad. aos. usd
 			for _, v := range result.AOSTotal {
-				dbfield.rev_ad_aos_d += v * currency.USDKRW[0] // krw
+				dbfield.rev_ad_aos_d += v * fCurrencyRate // krw
 				dbfield.rev_ad_aos_t += v
 			}
 		}
@@ -332,7 +335,7 @@ func Run(date string, conn *pgx.Conn) string {
 			result.NewUserCount,
 			dbfield.rev_d,
 			dbfield.rev_t,
-			currency.USDKRW[0],
+			fCurrencyRate,
 			reqData.Name,
 			dbfield.rev_inapp_ios_d, dbfield.rev_inapp_ios_t, dbfield.rev_inapp_aos_d, dbfield.rev_inapp_aos_t,
 			dbfield.rev_ad_ios_d, dbfield.rev_ad_ios_t, dbfield.rev_ad_aos_d, dbfield.rev_ad_aos_t,
@@ -417,10 +420,39 @@ func callAPI(url, method, data string) (int, *http.Response, error) {
 
 type Currency struct {
 	USDKRW []float64 `json:"USDKRW"`
+	Rates  Rates     `json:"rates"`
+}
+
+type Rates struct {
+	KRW string `json:"KRW"`
 }
 
 func calcurateCurrency() (Currency, error) {
 	url := fmt.Sprintf("https://exchange.jaeheon.kr:23490/query/USDKRW")
+
+	req, _ := http.NewRequest("GET", url, nil)
+	res, _ := http.DefaultClient.Do(req)
+
+	defer res.Body.Close()
+	body, _ := ioutil.ReadAll(res.Body)
+
+	fmt.Println(res)
+	fmt.Println(string(body))
+
+	if res.StatusCode > 300 {
+		return Currency{}, errors.New("Fail get currency.")
+	}
+
+	var currency Currency
+	err := json.Unmarshal(body, &currency)
+	if err != nil {
+		return Currency{}, err
+	}
+	return currency, nil
+}
+
+func calcurateCurrencyV2() (Currency, error) {
+	url := fmt.Sprintf("https://api.currencyfreaks.com/latest?apikey=e247b898c2d74be89e14126d72f94640")
 
 	req, _ := http.NewRequest("GET", url, nil)
 	res, _ := http.DefaultClient.Do(req)

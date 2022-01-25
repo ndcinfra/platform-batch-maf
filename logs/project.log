@@ -120,3 +120,44 @@
 
 2021/07/13 22:09:28.160 [I]  finish:  2021-07-13 22:09:28.160434 -0700 PDT m=+56.636483020  , elapsed:  56.63544351s
 2021/07/13 22:09:30.273 [I]  success send email
+2022/01/18 21:58:42.557 [I]  connection success
+2022/01/18 21:59:58.071 [I]  finish:  2022-01-18 21:59:58.071682 -0800 PST m=+77.680514474  , elapsed:  1m17.679453135s
+2022/01/18 21:59:59.059 [I]  success send email
+2022/01/20 22:23:55.154 [I]  connection success
+2022/01/21 00:11:43.956 [I]  connection success
+2022/01/21 09:20:52.591 [I]  connection success
+2022/01/21 23:39:20.633 [I]  connection success
+2022/01/22 22:13:36.393 [I]  connection success
+2022/01/22 22:14:13.111 [I]  connection success
+2022/01/22 22:15:09.714 [I]  connection success
+2022/01/22 22:15:10.856 [E]  Failed to get currency. json: cannot unmarshal string into Go struct field Rates.rates.KRW of type float64
+
+2022/01/22 22:15:45.063 [I]  connection success
+2022/01/22 22:15:46.057 [E]  Failed to get currency. json: cannot unmarshal string into Go struct field Rates.rates.KRW of type float64
+
+2022/01/22 22:16:01.135 [I]  connection success
+2022/01/22 22:16:02.142 [E]  Failed to get currency. json: cannot unmarshal string into Go struct field Rates.rates.KRW of type float64
+
+2022/01/22 22:16:28.915 [I]  connection success
+2022/01/22 22:18:20.045 [I]  connection success
+2022/01/22 22:19:39.510 [I]  connection success
+2022/01/22 22:19:55.155 [I]  connection success
+2022/01/22 22:21:15.933 [I]  finish:  2022-01-22 22:21:15.933398 -0800 PST m=+81.625867523  , elapsed:  1m21.624622234s
+2022/01/22 22:21:18.688 [I]  success send email
+2022/01/22 22:21:40.110 [I]  connection success
+2022/01/22 22:23:01.878 [I]  finish:  2022-01-22 22:23:01.878118 -0800 PST m=+82.674204507  , elapsed:  1m22.673188604s
+2022/01/22 22:23:02.786 [I]  success send email
+2022/01/22 22:23:12.800 [I]  connection success
+2022/01/22 22:24:36.199 [I]  finish:  2022-01-22 22:24:36.199851 -0800 PST m=+84.378037856  , elapsed:  1m24.376774601s
+2022/01/22 22:24:37.083 [I]  success send email
+2022/01/22 22:24:46.273 [I]  connection success
+2022/01/22 22:25:58.838 [I]  finish:  2022-01-22 22:25:58.838564 -0800 PST m=+73.811950966  , elapsed:  1m13.810576954s
+2022/01/22 22:25:59.909 [I]  success send email
+2022/01/22 22:26:20.808 [I]  connection success
+2022/01/23 14:15:37.337 [I]  connection success
+2022/01/23 20:45:41.647 [I]  connection success
+2022/01/23 20:46:58.186 [I]  finish:  2022-01-23 20:46:58.186332 -0800 PST m=+77.848954605  , elapsed:  1m17.847833347s
+2022/01/23 20:46:59.501 [I]  success send email
+2022/01/24 21:19:25.117 [I]  connection success
+2022/01/24 21:20:43.112 [I]  finish:  2022-01-24 21:20:43.112128 -0800 PST m=+79.342117641  , elapsed:  1m19.340514607s
+2022/01/24 21:20:43.888 [I]  success send email
