@@ -170,14 +170,14 @@ func Run(date string, conn *pgx.Conn) string {
 			if err != nil {
 				log.Fatalf("ERROR: read resp.Body: %v\n", err)
 			} else {
-				//log.Printf("Success. response data from maf: %v\n", string(respData))
+				log.Printf("Success. response data from maf: %v\n", string(respData))
 
 				var decoded []interface{}
 				err = json.Unmarshal(respData, &decoded)
 				if err != nil {
 					log.Fatalf("ERROR unmarshal maf response data: %v\n", err)
 				}
-				//log.Printf("Success. decoded data from maf: %v\n", decoded[0])
+				log.Printf("Success. decoded data from maf: %v\n", decoded[0])
 
 				bd, err := json.Marshal(decoded[0])
 				if err != nil {
