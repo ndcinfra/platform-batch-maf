@@ -209,7 +209,7 @@ func Run(date string, conn *pgx.Conn) string {
 
 				// call appfler with game name and ios, android
 				appflyerGameList := strings.Split(os.Getenv(reqData.Name), ",")
-				//log.Printf("appflyer guid: %v\n", appflyerGameList)
+				log.Printf("appflyer guid: %v\n", appflyerGameList)
 
 				for j, aguid := range appflyerGameList {
 					reqData.Pid = aguid
