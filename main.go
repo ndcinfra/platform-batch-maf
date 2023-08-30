@@ -169,7 +169,9 @@ func Run(date string, conn *pgx.Conn) string {
 		}
 
 		statusCode, resp, err := callAPI(url, method, string(bData))
+		log.Printf("MAF_URL RESULT : %d, bdata: %v\v", statusCode, string(bData))
 		//defer resp.Body.Close()
+
 		if err != nil {
 			logs.Error("ERROR: callapi maf. %v\n", err)
 			//os.Exit(1)
