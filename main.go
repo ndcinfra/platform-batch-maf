@@ -155,7 +155,13 @@ func Run(date string, conn *pgx.Conn) string {
 	for _, name := range gameList {
 		var result Response
 
-		reqData.Name = name
+		if name == "CatMart" {
+			reqData.Name = "cat mart"
+		} else {
+			reqData.Name = name
+		}
+
+		// reqData.Name = name
 		log.Printf("game : %v\v", reqData.Name)
 
 		//call maf api
