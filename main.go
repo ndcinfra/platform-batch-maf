@@ -156,7 +156,7 @@ func Run(date string, conn *pgx.Conn) string {
 		var result Response
 
 		if name == "CatMart" {
-			reqData.Name = "cat mart"
+			reqData.Name = "cat-mart"
 		} else {
 			reqData.Name = name
 		}
