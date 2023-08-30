@@ -156,6 +156,7 @@ func Run(date string, conn *pgx.Conn) string {
 		var result Response
 
 		reqData.Name = name
+		log.Printf("game : %v\v", reqData.Name)
 
 		//call maf api
 		url := os.Getenv("MAF_URL")
