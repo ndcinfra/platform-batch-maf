@@ -133,6 +133,11 @@ func Run(date string, conn *pgx.Conn) string {
 	// tycooncookie : 쿠키 타이쿤, IOS : 1565768885, AOS : com.maf.idle.hamster.factory.manager.cookie
 	// tycoonpuppycafe: 강아지카페 IOS : 1574143572, AOS : com.maf.idle.puppy.cafe.tycoon
 	// monstereater: monstereater IOS : 1574143572, AOS : com.maf.idle.puppy.cafe.tycoon
+	// bearbakery=id1621033498,com.maf.bearbakery
+	// justshooting=id1623282243,com.maf.justshooting
+	// bagtory=id1660705717,com.maf.bagtory
+	// thechangers=id1645037122,com.maf.jobchangers
+	// catmart=id6449457179,com.maf.catmart
 
 	var reqData Request
 
@@ -212,78 +217,78 @@ func Run(date string, conn *pgx.Conn) string {
 				//log.Printf("Success. response data from maf: %v\n", result)
 
 				// call appfler with game name and ios, android
-				appflyerGameList := strings.Split(os.Getenv(reqData.Name), ",")
-				log.Printf("appflyer guid: %v\n", appflyerGameList)
+				// appflyerGameList := strings.Split(os.Getenv(reqData.Name), ",")
+				// log.Printf("appflyer guid: %v\n", appflyerGameList)
 
-				for j, aguid := range appflyerGameList {
-					reqData.Pid = aguid
+				// for j, aguid := range appflyerGameList {
+				// 	reqData.Pid = aguid
 
-					appflyerURL := os.Getenv("APPFLYER")
-					appflyserToken := os.Getenv("APPTOEKN")
+				// 	appflyerURL := os.Getenv("APPFLYER")
+				// 	appflyserToken := os.Getenv("APPTOEKN")
 
-					//URL = "https://hq1.appsflyer.com/aggreports/enc/id954182728/partners_report/v5?api_token=51706054-156b-4bb7-92d5-68e722fceff5&from=2021-05-11&to=2021-05-11"
-					url = fmt.Sprintf(appflyerURL+"%s"+"/partners_report/v5?api_token=%s&from=%s&to=%s", reqData.Pid, appflyserToken, reqData.StartDate, reqData.EndDate)
-					method = http.MethodGet
+				// 	//URL = "https://hq1.appsflyer.com/aggreports/enc/id954182728/partners_report/v5?api_token=51706054-156b-4bb7-92d5-68e722fceff5&from=2021-05-11&to=2021-05-11"
+				// 	url = fmt.Sprintf(appflyerURL+"%s"+"/partners_report/v5?api_token=%s&from=%s&to=%s", reqData.Pid, appflyserToken, reqData.StartDate, reqData.EndDate)
+				// 	method = http.MethodGet
 
-					fileName := fmt.Sprintf("./tmp/%s.csv", reqData.Pid)
+				// 	fileName := fmt.Sprintf("./tmp/%s.csv", reqData.Pid)
 
-					file, err := os.Create(fileName)
-					if err != nil {
-						logs.Error("ERROR file create: %+v", err)
-						//os.Exit(1)
-						continue
-					}
-					//defer file.Close()
+				// 	file, err := os.Create(fileName)
+				// 	if err != nil {
+				// 		logs.Error("ERROR file create: %+v", err)
+				// 		//os.Exit(1)
+				// 		continue
+				// 	}
+				// 	//defer file.Close()
 
-					statusCode, resp, err = callAPI(url, method, string(bData))
-					defer resp.Body.Close()
-					if err != nil {
-						logs.Error("ERROR: %v\n", err)
-						//os.Exit(1)
-						continue
-					}
+				// 	statusCode, resp, err = callAPI(url, method, string(bData))
+				// 	defer resp.Body.Close()
+				// 	if err != nil {
+				// 		logs.Error("ERROR: %v\n", err)
+				// 		//os.Exit(1)
+				// 		continue
+				// 	}
 
-					if statusCode >= 400 {
-						logs.Error("ERROR: %d\n", statusCode)
-						//os.Exit(1)
-						continue
-					} else {
+				// 	if statusCode >= 400 {
+				// 		logs.Error("ERROR: %d\n", statusCode)
+				// 		//os.Exit(1)
+				// 		continue
+				// 	} else {
 
-						size, err := io.Copy(file, resp.Body)
-						if err != nil {
-							logs.Error("ERROR: make file: %v\n", err)
-							//os.Exit(1)
-							continue
-						} else {
-							log.Printf("Downloaded a file %s with size %d", fileName, size)
-							// read file
+				// 		size, err := io.Copy(file, resp.Body)
+				// 		if err != nil {
+				// 			logs.Error("ERROR: make file: %v\n", err)
+				// 			//os.Exit(1)
+				// 			continue
+				// 		} else {
+				// 			log.Printf("Downloaded a file %s with size %d", fileName, size)
+				// 			// read file
 
-							csvData := ReadCsvFile(fileName)
-							//fmt.Println(csvData)
-							for i := 1; i < len(csvData); i++ {
-								f, _ := strconv.ParseFloat(csvData[i], 64)
+				// 			csvData := ReadCsvFile(fileName)
+				// 			//fmt.Println(csvData)
+				// 			for i := 1; i < len(csvData); i++ {
+				// 				f, _ := strconv.ParseFloat(csvData[i], 64)
 
-								switch j {
-								case 0:
-									// ios
-									result.IOSTotal = append(result.IOSTotal, f)
-								case 1:
-									//and
-									result.AOSTotal = append(result.AOSTotal, f)
-								case 2:
-									//one store  to and
-									result.AOSTotal = append(result.AOSTotal, f)
-								}
+				// 				switch j {
+				// 				case 0:
+				// 					// ios
+				// 					result.IOSTotal = append(result.IOSTotal, f)
+				// 				case 1:
+				// 					//and
+				// 					result.AOSTotal = append(result.AOSTotal, f)
+				// 				case 2:
+				// 					//one store  to and
+				// 					result.AOSTotal = append(result.AOSTotal, f)
+				// 				}
 
-								//result.TotalRev = append(result.TotalRev, f)
-							}
+				// 				//result.TotalRev = append(result.TotalRev, f)
+				// 			}
 
-						}
+				// 		}
 
-					}
+				// 	}
 
-					file.Close()
-				}
+				// 	file.Close()
+				// }
 
 			}
 
